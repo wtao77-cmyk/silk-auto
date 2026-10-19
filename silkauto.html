@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SilkAuto — Premium Vehicle Trade</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0A0A0A;
+    --charcoal:#1A1A1A;
+    --mid:     #2A2A2A;
+    --green:   #1E5C3A;
+    --green-lt:#256B45;
+    --gold:    #C8963E;
+    --gold-lt: #DBA84E;
+    --offwhite:#F0EDE6;
+    --silver:  #9A9A9A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--offwhite);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,10,0.92);
+    border-bottom: 1px solid rgba(200,150,62,0.15);
+    backdrop-filter: blur(8px);
+  }
+
+  .logo-wrap { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.7rem; letter-spacing: 5px;
+    color: var(--offwhite); text-decoration: none;
+  }
+  .logo-text span { color: var(--gold); }
+  .logo-wave {
+    width: 100%; height: 6px; margin-top: 2px;
+    overflow: visible;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--silver);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--green); color: var(--offwhite);
+    padding: 0.55rem 1.5rem; border: none; cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 0.12em;
+    text-transform: uppercase; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-lt); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  /* Bold diagonal green slash */
+  .hero-slash {
+    position: absolute;
+    top: 0; right: 0;
+    width: 55%;
+    height: 100%;
+    background: var(--green);
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .hero-slash-img {
+    position: absolute;
+    top: 0; right: 0;
+    width: 55%;
+    height: 100%;
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+    background: url('img/mainimg.jpg') center/cover no-repeat;
+    opacity: 0.35;
+  }
+
+  /* Gold accent bar on diagonal edge */
+  .hero-edge {
+    position: absolute;
+    top: 0; bottom: 0;
+    right: calc(55% - 3px);
+    width: 3px;
+    background: var(--gold);
+    transform: skewX(-6deg);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 8rem 4rem 4rem;
+    max-width: 580px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 30px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: clamp(3.2rem, 6vw, 5.5rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--offwhite);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    color: var(--gold); font-style: normal;
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 1rem; line-height: 1.65;
+    color: var(--silver); max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; }
+  .btn-primary {
+    background: var(--gold); color: var(--black); border: none; cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.85rem 2rem;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-lt); }
+
+  .btn-ghost {
+    background: transparent; color: var(--offwhite);
+    border: 1px solid rgba(240,237,230,0.3); cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.95rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.85rem 2rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    position: absolute; bottom: 3rem; right: 4rem; z-index: 2;
+    display: flex; gap: 3rem;
+  }
+  .stat-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 2.4rem; color: var(--offwhite); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--silver); margin-top: 0.2rem;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-strip {
+    background: var(--green);
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    padding: 0.65rem 0; overflow: hidden; white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--offwhite);
+  }
+  .marquee-inner span { margin: 0 2rem; color: var(--gold); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 6rem 4rem; }
+
+  .eyebrow {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .eyebrow::before {
+    content: ''; display: block;
+    width: 24px; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase; line-height: 1;
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex; align-items: flex-end;
+    justify-content: space-between; margin-bottom: 3rem;
+  }
+  .view-all {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold);
+    text-decoration: none; border-bottom: 1px solid var(--gold);
+    padding-bottom: 1px; white-space: nowrap;
+  }
+
+  /* ── CARS GRID ── */
+  .cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: var(--gold);
+    border: 1.5px solid var(--gold);
+  }
+
+  .car-card {
+    background: var(--charcoal);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .car-card:hover { background: var(--mid); }
+
+  .car-img-placeholder {
+    width: 100%; aspect-ratio: 16/10;
+    background: linear-gradient(135deg, var(--green) 0%, #0d2e1e 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 0.15em;
+    color: rgba(240,237,230,0.25); text-transform: uppercase;
+  }
+
+  .car-body { padding: 1.4rem; }
+
+  .car-tag {
+    display: inline-block;
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--green);
+    border: 1px solid var(--green); padding: 0.18rem 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .car-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.3rem; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--offwhite);
+    margin-bottom: 0.4rem;
+  }
+
+  .car-specs {
+    font-size: 0.78rem; color: var(--silver);
+    margin-bottom: 1rem; display: flex; gap: 0.8rem; flex-wrap: wrap;
+  }
+
+  .car-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(200,150,62,0.2);
+    padding-top: 1rem;
+  }
+
+  .car-price {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1.2rem; color: var(--gold);
+  }
+  .car-price small { font-size: 0.72rem; font-weight: 400; color: var(--silver); }
+
+  .btn-sm {
+    background: transparent; border: 1px solid rgba(200,150,62,0.4);
+    color: var(--gold); cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; font-size: 0.8rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.4rem 1rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-sm:hover { background: var(--gold); color: var(--black); }
+
+  /* ── WHY US ── */
+  .why-section {
+    background: var(--charcoal);
+    border-top: 1px solid rgba(200,150,62,0.15);
+    border-bottom: 1px solid rgba(200,150,62,0.15);
+    padding: 6rem 4rem;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0;
+    border: 1px solid rgba(200,150,62,0.2);
+    margin-top: 3rem;
+  }
+
+  .why-item {
+    padding: 2rem;
+    border-right: 1px solid rgba(200,150,62,0.2);
+    border-bottom: 1px solid rgba(200,150,62,0.2);
+    transition: background 0.2s;
+  }
+  .why-item:hover { background: rgba(30,92,58,0.15); }
+
+  .why-icon {
+    width: 2rem; height: 2rem;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--offwhite);
+    margin-bottom: 0.5rem;
+  }
+
+  .why-text { font-size: 0.82rem; line-height: 1.6; color: var(--silver); }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    background: var(--green);
+    border-top: 3px solid var(--gold);
+    padding: 5rem 4rem;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: 'SILKAUTO';
+    position: absolute; right: -1rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 10rem;
+    color: rgba(0,0,0,0.12); letter-spacing: 0.05em;
+    pointer-events: none; user-select: none;
+  }
+
+  .cta-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase; line-height: 1; color: var(--offwhite);
+  }
+  .cta-sub { font-size: 0.9rem; color: rgba(240,237,230,0.7); margin-top: 0.5rem; }
+
+  .btn-gold {
+    background: var(--gold); color: var(--black); border: none; cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 1rem 2.5rem;
+    white-space: nowrap; transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-lt); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #060606;
+    border-top: 1px solid rgba(200,150,62,0.2);
+    padding: 4rem 4rem 2rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+
+  .footer-logo { margin-bottom: 1rem; }
+  .footer-logo .logo-text { font-size: 1.4rem; }
+  .footer-desc { font-size: 0.82rem; line-height: 1.65; color: var(--silver); max-width: 260px; }
+
+  .footer-col h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; font-size: 0.82rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.55rem; }
+  .footer-col a {
+    font-size: 0.82rem; color: var(--silver);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(200,150,62,0.12);
+    padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.76rem; color: rgba(154,154,154,0.5); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-content { padding: 7rem 1.5rem 3rem; }
+    .hero-slash, .hero-slash-img { width: 100%; clip-path: none; opacity: 0.1; }
+    .hero-edge { display: none; }
+    .hero-stats { position: static; margin-top: 2rem; gap: 2rem; }
+    .section, .why-section { padding: 4rem 1.5rem; }
+    .cta-banner { flex-direction: column; padding: 3rem 1.5rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    footer { padding: 3rem 1.5rem 1.5rem; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-wrap">
+    <a href="#" class="logo-text">SILK<span>AUTO</span></a>
+    <svg class="logo-wave" viewBox="0 0 120 6" preserveAspectRatio="none">
+      <path d="M0 3 Q15 0 30 3 Q45 6 60 3 Q75 0 90 3 Q105 6 120 3" fill="none" stroke="#C8963E" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#inventory">Inventory</a></li>
+    <li><a href="#why">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Get a Quote</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-slash"></div>
+  <div class="hero-slash-img"></div>
+  <div class="hero-edge"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Hong Kong · Est. 2025</p>
+    <h1 class="hero-title">
+      Drive the
+      <em>Silk Road</em>
+      Forward
+    </h1>
+    <p class="hero-sub">Premium vehicles sourced directly from China's finest manufacturers. Transparent trade, global reach, unmatched value.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('inventory').scrollIntoView({behavior:'smooth'})">Browse Inventory</button>
+      <button class="btn-ghost">Contact Us</button>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Vehicles</div>
+    </div>
+    <div>
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Rated</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    Geely <span>·</span> LIVAN <span>·</span> Jetour <span>·</span> Toyota <span>·</span> MG <span>·</span> Geely Coolray <span>·</span> LIVAN X3 Pro <span>·</span> Jetour X70+ <span>·</span> Jetour T2 <span>·</span> Toyota Corolla <span>·</span> MG5 <span>·</span>
+    Geely <span>·</span> LIVAN <span>·</span> Jetour <span>·</span> Toyota <span>·</span> MG <span>·</span> Geely Coolray <span>·</span> LIVAN X3 Pro <span>·</span> Jetour X70+ <span>·</span> Jetour T2 <span>·</span> Toyota Corolla <span>·</span> MG5 <span>·</span>
+  </div>
+</div>
+
+<!-- INVENTORY -->
+<section class="section" id="inventory">
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">Featured Vehicles</p>
+      <h2 class="section-title">Our Top Picks</h2>
+    </div>
+    <a href="#" class="view-all">View All Inventory →</a>
+  </div>
+
+  <div class="cars-grid">
+
+    <div class="car-card">
+      <div class="car-img-placeholder">Geely Coolray</div>
+      <div class="car-body">
+        <span class="car-tag">MT / AT</span>
+        <div class="car-name">Geely Coolray</div>
+        <div class="car-specs"><span>1.5L Turbo</span><span>·</span><span>FWD</span><span>·</span><span>Manual &amp; Auto</span></div>
+        <div class="car-footer">
+          <div class="car-price">Inquire <small>for price</small></div>
+          <button class="btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <div class="car-img-placeholder">LIVAN X3 Pro</div>
+      <div class="car-body">
+        <span class="car-tag">MT / AT</span>
+        <div class="car-name">LIVAN X3 Pro</div>
+        <div class="car-specs"><span>1.5L Turbo</span><span>·</span><span>FWD</span><span>·</span><span>Manual &amp; Auto</span></div>
+        <div class="car-footer">
+          <div class="car-price">Inquire <small>for price</small></div>
+          <button class="btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <div class="car-img-placeholder">Jetour X70+</div>
+      <div class="car-body">
+        <span class="car-tag">SUV</span>
+        <div class="car-name">Jetour X70+</div>
+        <div class="car-specs"><span>1.5T / 2.0T</span><span>·</span><span>FWD / AWD</span><span>·</span><span>7-Seater</span></div>
+        <div class="car-footer">
+          <div class="car-price">Inquire <small>for price</small></div>
+          <button class="btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <div class="car-img-placeholder">Jetour T2</div>
+      <div class="car-body">
+        <span class="car-tag">SUV</span>
+        <div class="car-name">Jetour T2</div>
+        <div class="car-specs"><span>2.0T Turbo</span><span>·</span><span>AWD</span><span>·</span><span>8-Speed Auto</span></div>
+        <div class="car-footer">
+          <div class="car-price">Inquire <small>for price</small></div>
+          <button class="btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <div class="car-img-placeholder">Toyota Corolla 1.2T</div>
+      <div class="car-body">
+        <span class="car-tag">Sedan</span>
+        <div class="car-name">Toyota Corolla 1.2T</div>
+        <div class="car-specs"><span>1.2L Turbo</span><span>·</span><span>FWD</span><span>·</span><span>CVT Auto</span></div>
+        <div class="car-footer">
+          <div class="car-price">Inquire <small>for price</small></div>
+          <button class="btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="car-card">
+      <div class="car-img-placeholder">MG5</div>
+      <div class="car-body">
+        <span class="car-tag">MT / AT</span>
+        <div class="car-name">MG5</div>
+        <div class="car-specs"><span>1.5L Turbo</span><span>·</span><span>FWD</span><span>·</span><span>Manual &amp; Auto</span></div>
+        <div class="car-footer">
+          <div class="car-price">Inquire <small>for price</small></div>
+          <button class="btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section" id="why">
+  <p class="eyebrow">Why SilkAuto</p>
+  <h2 class="section-title">The SilkAuto Edge</h2>
+  <div class="why-grid">
+
+    <div class="why-item">
+      <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      <div class="why-title">Factory Certified</div>
+      <p class="why-text">Every vehicle is sourced directly from certified Chinese manufacturers and passes a rigorous pre-export inspection.</p>
+    </div>
+
+    <div class="why-item">
+      <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+      <div class="why-title">Global Trade Network</div>
+      <p class="why-text">Operating from Hong Kong with direct trade routes into Africa, Southeast Asia, and the Middle East.</p>
+    </div>
+
+    <div class="why-item">
+      <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <div class="why-title">Transparent Pricing</div>
+      <p class="why-text">No hidden costs. We provide full cost breakdowns including shipping, duties, and local registration fees.</p>
+    </div>
+
+    <div class="why-item">
+      <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      <div class="why-title">After-Sales Support</div>
+      <p class="why-text">Dedicated support team for documentation, warranty coordination, and spare parts sourcing post-purchase.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner" id="contact">
+  <div>
+    <h2 class="cta-title">Ready to Import<br>Your Next Vehicle?</h2>
+    <p class="cta-sub">Unit 3A-8, 12/F, Kaiser Centre, Sai Ying Pun, Hong Kong · Mon–Sat 9AM–7PM</p>
+  </div>
+  <button class="btn-gold">Call (86) 180-285-511-30</button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <div class="logo-wrap">
+          <span class="logo-text">SILK<span>AUTO</span></span>
+          <svg class="logo-wave" viewBox="0 0 120 6" preserveAspectRatio="none">
+            <path d="M0 3 Q15 0 30 3 Q45 6 60 3 Q75 0 90 3 Q105 6 120 3" fill="none" stroke="#C8963E" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <p class="footer-desc">Hong Kong's international vehicle trade specialist. Connecting China's finest manufacturers with the world since 2025.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Inventory</h4>
+      <ul>
+        <li><a href="#">New Vehicles</a></li>
+        <li><a href="#">Pre-Owned</a></li>
+        <li><a href="#">SUVs & Trucks</a></li>
+        <li><a href="#">Electric Vehicles</a></li>
+        <li><a href="#">Sedans</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Import Consulting</a></li>
+        <li><a href="#">Trade Finance</a></li>
+        <li><a href="#">Customs Clearance</a></li>
+        <li><a href="#">After-Sales Support</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">(86) 180-285-511-30</a></li>
+        <li><a href="#">wtao77@gmail.com</a></li>
+        <li><a href="#">Unit 3A-8, 12/F,</a></li>
+        <li><a href="#">Kaiser Centre,</a></li>
+        <li><a href="#">Sai Ying Pun, Hong Kong</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 SilkAuto Co., Ltd. All rights reserved.</p>
+    <p class="footer-copy">Privacy Policy · Terms of Use</p>
+  </div>
+</footer>
+
+</body>
+</html>
